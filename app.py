@@ -4,7 +4,7 @@ import google.generativeai as genai
 # Grafica semplice e pulita per il tuo chatbot
 st.set_page_config(page_title="Ryze OS", page_icon="🤖")
 st.title("🤖 Ryze Personal AI v1.0")
-st.write("Sistemi online. Benvenuto, Capo Sebastiano. 🚀")
+st.write("Benvenuto, Capo Sebastiano. 🚀")
 
 # Utilizziamo la cassaforte dei Secrets di Streamlit per la massima stabilità
 CHIAVE_API = st.secrets["CHIAVE_GEMINI"]
