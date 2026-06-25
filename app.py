@@ -7,7 +7,7 @@ st.title("🤖 RyzeOS")
 st.write("Sistemi online. Benvenuto, Sebastiano. 🚀")
 
 # Configurazione diretta del cervello
-CHIAVE_API = "AQ.Ab8RN6Kx9tUt9eNN2UrDoYf5w8HZZu-1t-vOW6kg8jVrLT0YPw"
+CHIAVE_API = "AQ.Ab8RN6LqjPNJREF9TuHW4r-2ioPlNa2PY8vl0CDtKo1Ly-3PfQ"
 genai.configure(api_key=CHIAVE_API)
 
 model = genai.GenerativeModel(
