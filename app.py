@@ -14,13 +14,7 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-# Trucco di sicurezza per nascondere la chiave a GitHub dividendo la scritta in due pezzi
-P1 = "AQAb8RN6IKroDgDMy4CP3G_Z"
-P2 = "LC-qMA-f7rDc9WmyXTwMNHKGJmx-g"
-CHIAVE_PROGETTO = P1 + P2
-
-genai.configure(api_key=CHIAVE_PROGETTO)
-
+genai.configure(api_key="AQ.Ab8RN6KroDgDMy4CP3G_ZLC-qMA-f7rDc9WmyXTwMNHKGJmx-g")
 # Creazione della Barra Laterale (Sidebar) per cambiare modalità
 with st.sidebar:
     st.title("⚙️ Pannello Ryze")
