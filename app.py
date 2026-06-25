@@ -15,7 +15,7 @@ st.title("🤖 Ryze Personal AI v1.0")
 st.write("Sistemi online. Benvenuto, Sebastiano. 🚀")
 
 # ⚠️ INSERISCI QUI LA TUA CHIAVE API DI GEMINI TRA LE VIRGOLETTE
-CHIAVE_API = "AQ.Ab8RN6IS86oxENRyNV96rfhQJCY-U7RSn4b0EulM_pc2hzuyUg"
+CHIAVE_API = "AQ.Ab8RN6KroDgDMy4CP3G_ZLC-qMA-f7rDc9WmyXTwMNHKGJmx-g"
 
 # Inizializza il cervello di Ryze con le tue regole di rispetto
 genai.configure(api_key=CHIAVE_API)
