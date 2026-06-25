@@ -15,7 +15,7 @@ st.markdown("""
     """, unsafe_allow_html=True)
 
 # La tua chiave API numero 3 corretta e funzionante con le sue virgolette
-CHIAVE_API = "AQAb8RN6IKroDgDMy4CP3G_ZLC-qMA-f7rDc9WmyXTwMNHKGJmx-g"
+CHIAVE_API = st.secrets["CHIAVE_GEMINI"]
 genai.configure(api_key=CHIAVE_API)
 
 # Creazione della Barra Laterale (Sidebar) per cambiare modalità
