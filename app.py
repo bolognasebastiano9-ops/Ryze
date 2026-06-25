@@ -4,7 +4,7 @@ from PIL import Image
 
 st.set_page_config(page_title="La mia AI Personale", page_icon="🤖", layout="centered")
 st.title("🤖 RyzeOS(2.0)")
-st.subheader("Sempre attiva sul Cloud 24/7")
+st.subheader("Come posso aiutarti oggi?")
 
 # Recupera la chiave segreta in modo sicuro dalle impostazioni di Streamlit
 if "GEMINI_API_KEY" in st.secrets:
@@ -34,7 +34,7 @@ if prompt := st.chat_input("Scrivi qualcosa a Ryze..."):
         message_placeholder = st.empty()
         
         # Scegliamo il modello corretto (Gemini Flash è velocissimo)
-        model = genai.GenerativeModel('gemini-1.5-flash')
+        model = genai.GenerativeModel('gemini-2.5-flash')
         
         if uploaded_file:
             image = Image.open(uploaded_file)
