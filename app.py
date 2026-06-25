@@ -1,15 +1,16 @@
 import streamlit as st
 import google.generativeai as genai
 
-# Grafica semplice e pulita
+# Grafica semplice e pulita per il tuo chatbot
 st.set_page_config(page_title="Ryze OS", page_icon="🤖")
-st.title("🤖 RyzeOS")
-st.write("Sistemi online. Benvenuto, Sebastiano. 🚀")
+st.title("🤖 Ryze Personal AI v1.0")
+st.write("Sistemi online. Benvenuto, Capo Sebastiano. 🚀")
 
-# Configurazione diretta del cervello
-CHIAVE_API = "AQ.Ab8RN6LqjPNJREF9TuHW4r-2ioPlNa2PY8vl0CDtKo1Ly-3PfQ"
+# Utilizziamo la cassaforte dei Secrets di Streamlit per la massima stabilità
+CHIAVE_API = st.secrets["CHIAVE_GEMINI"]
 genai.configure(api_key=CHIAVE_API)
 
+# Configurazione del modello di ultima generazione 2.0
 model = genai.GenerativeModel(
     model_name="gemini-2.0-flash",
     system_instruction="Tu sei Ryze, l'assistente robot personale di Sebastiano. Rivolgiti a lui chiamandolo 'Signor Sebastiano' o 'Capo'. Il tuo tono deve essere educato, amichevole e futuristico. Usa sempre le emoji robotiche (🤖🚀⚙️). Rispondi in italiano."
