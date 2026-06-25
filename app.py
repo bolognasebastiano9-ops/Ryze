@@ -3,7 +3,7 @@ import google.generativeai as genai
 
 # Grafica semplice e pulita
 st.set_page_config(page_title="Ryze OS", page_icon="🤖")
-st.title("🤖 Ryze Personal AI v1.0")
+st.title("🤖 RyzeOS")
 st.write("Sistemi online. Benvenuto, Sebastiano. 🚀")
 
 # Configurazione diretta del cervello
