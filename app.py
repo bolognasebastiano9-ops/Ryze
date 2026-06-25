@@ -64,7 +64,7 @@ if modalita == "💬 Chat Testuale":
             except Exception as e:
                 risposta_reale = "🤖 Capo, si è verificato un errore nel caricamento della risposta."
             st.markdown(risposta_reale)
-            st.session_state.messages.append({"role": "assistant", "content": respuesta_reale})
+            st.session_state.messages.append({"role": "assistant", "content": risposta_reale})
 
 # 2. MODALITÀ VISIONE PER FOTO E VIDEO
 elif modalita == "👁️ Visione Immagini/Video":
