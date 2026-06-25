@@ -34,7 +34,12 @@ if prompt := st.chat_input("Scrivi qualcosa a Ryze..."):
         message_placeholder = st.empty()
         
         # Scegliamo il modello corretto (Gemini Flash è velocissimo)
-        model = genai.GenerativeModel('gemini-2.5-flash')
+        model = genai.GenerativeModel(
+            model_name='gemini-2.5-flash',
+            system_instruction="Sei RyzeOS, un'IA amichevole, sveglia e personalizzata. Rispondi SEMPRE in italiano in modo chiaro, fluido e naturale, evitando toni troppo robotici o formali."
+        
+        
+        )
         
         if uploaded_file:
             image = Image.open(uploaded_file)
