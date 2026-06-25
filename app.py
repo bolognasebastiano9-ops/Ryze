@@ -1,44 +1,50 @@
 import streamlit as st
-import ollama
+import google.generativeai as genai
+from PIL import Image
 
-# Configura il titolo della pagina nel browser
-st.set_page_config(page_title="La mia AI Personale", page_icon="🤖")
+st.set_page_config(page_title="La mia AI Personale", page_icon="🤖", layout="centered")
 st.title("🤖 RyzeOS(2.0)")
-st.write("Interfaccia personalizzata per Ryze!")
+st.subheader("Sempre attiva sul Cloud 24/7")
 
-# Inizializza la cronologia dei messaggi se non esiste
+# Recupera la chiave segreta in modo sicuro dalle impostazioni di Streamlit
+if "GEMINI_API_KEY" in st.secrets:
+    genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
+else:
+    st.error("Manca la chiave API! Inseriscila nei Secrets di Streamlit.")
+    st.stop()
+
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# Mostra i messaggi precedenti in chat
+# Mostra la cronologia della chat
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-# Input dell'utente
+# Caricamento delle immagini
+uploaded_file = st.file_uploader("Carica una foto da far vedere all'IA", type=["png", "jpg", "jpeg"])
+
 if prompt := st.chat_input("Scrivi qualcosa a Ryze..."):
-    # Mostra il messaggio dell'utente nella chat
     with st.chat_message("user"):
         st.markdown(prompt)
+    
     st.session_state.messages.append({"role": "user", "content": prompt})
 
-    # Risposta dell'IA
     with st.chat_message("assistant"):
         message_placeholder = st.empty()
-        full_response = ""
         
-        # Parla con Ollama usando tinyllama
-        response = ollama.chat(
-            model='qwen2.5:1.5b',
-            messages=st.session_state.messages,
-            stream=True,
-        )
+        # Scegliamo il modello corretto (Gemini Flash è velocissimo)
+        model = genai.GenerativeModel('gemini-1.5-flash')
         
-        # Mostra la risposta un pezzettino alla volta (effetto streaming)
-        for chunk in response:
-            full_response += chunk['message']['content']
-            message_placeholder.markdown(full_response + "▌")
+        if uploaded_file:
+            image = Image.open(uploaded_file)
+            st.image(image, caption="Immagine inviata", use_container_width=True)
+            # Se c'è un'immagine, inviamo sia il testo che la foto
+            response = model.generate_content([prompt, image])
+        else:
+            # Altrimenti inviamo solo il testo della chat
+            response = model.generate_content(prompt)
+            
+        message_placeholder.markdown(response.text)
         
-        message_placeholder.markdown(full_response)
-        
-    st.session_state.messages.append({"role": "assistant", "content": full_response})
+    st.session_state.messages.append({"role": "assistant", "content": response.text})
