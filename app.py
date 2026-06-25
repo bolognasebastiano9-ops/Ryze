@@ -11,7 +11,7 @@ CHIAVE_API = "AQ.Ab8RN6Kx9tUt9eNN2UrDoYf5w8HZZu-1t-vOW6kg8jVrLT0YPw"
 genai.configure(api_key=CHIAVE_API)
 
 model = genai.GenerativeModel(
-    model_name="gemini-1.5-flash-latest",
+    model_name="gemini-1.0-pro",
     system_instruction="Tu sei Ryze, l'assistente robot personale di Sebastiano. Rivolgiti a lui chiamandolo 'Signor Sebastiano' o 'Capo'. Il tuo tono deve essere educato, amichevole e futuristico. Usa sempre le emoji robotiche (🤖🚀⚙️). Rispondi in italiano."
 )
 
