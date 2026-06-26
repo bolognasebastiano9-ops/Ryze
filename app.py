@@ -1,65 +1,50 @@
 import streamlit as st
-from groq import Groq
+import google.generativeai as genai
+from PIL import Image
 
-# Configurazione della pagina
-st.set_page_config(page_title="Rides OS", page_icon="🤖", layout="centered")
-
-st.title("🤖 RyzeOS(2.0)")
+st.set_page_config(page_title="La mia AI Personale", page_icon="🤖", layout="centered")
+st.title("🤖 RyzeOS")
 st.subheader("Come posso aiutarti oggi?")
 
-# Recupera la chiave segreta di Groq dai Secrets di Streamlit
-if "GROQ_API_KEY" in st.secrets:
-    api_key = st.secrets["GROQ_API_KEY"]
+# Recupera la chiave segreta in modo sicuro dalle impostazioni di Streamlit
+if "GEMINI_API_KEY" in st.secrets:
+    genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
 else:
-    st.error("Manca la chiave API di Groq! Inseriscila nei Secrets di Streamlit con il nome GROQ_API_KEY.")
+    st.error("Manca la chiave API! Inseriscila nei Secrets di Streamlit.")
     st.stop()
 
-# Inizializza il client Groq
-client = Groq(api_key=api_key)
-
-# Inizializza la cronologia dei messaggi in memoria se non esiste
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# Mostra i messaggi precedenti nella chat
+# Mostra la cronologia della chat
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-# Input dell'utente
-if prompt := st.chat_input("Scrivi qualcosa a RyzeOS..."):
-    # Mostra il messaggio dell'utente
+# Caricamento delle immagini
+uploaded_file = st.file_uploader("Carica una foto da far vedere all'IA", type=["png", "jpg", "jpeg"])
+
+if prompt := st.chat_input("Scrivi qualcosa a Ryze..."):
     with st.chat_message("user"):
         st.markdown(prompt)
     
-    # Salva il messaggio dell'utente nella cronologia
     st.session_state.messages.append({"role": "user", "content": prompt})
 
-    # Genera la risposta dell'IA con Groq
     with st.chat_message("assistant"):
         message_placeholder = st.empty()
         
-        try:
-            # Creiamo i messaggi includendo la cronologia e l'istruzione di sistema
-            messages_history = [
-                {"role": "system", "content": "Sei Rides OS, un'IA amichevole, sveglia e personalizzata. Rispondi SEMPRE in italiano in modo chiaro, fluido e naturale, evitando toni robotici."}
-            ]
+        # Scegliamo il modello corretto (Gemini Flash è velocissimo)
+        model = genai.GenerativeModel('gemini-1.5-flash')
+        
+        if uploaded_file:
+            image = Image.open(uploaded_file)
+            st.image(image, caption="Immagine inviata", use_container_width=True)
+            # Se c'è un'immagine, inviamo sia il testo che la foto
+            response = model.generate_content([prompt, image])
+        else:
+            # Altrimenti inviamo solo il testo della chat
+            response = model.generate_content(prompt)
             
-            # Aggiungiamo gli ultimi messaggi per mantenere il filo del discorso
-            for msg in st.session_state.messages[-10:]:
-                messages_history.append({"role": msg["role"], "content": msg["content"]})
-
-            # Chiamata ai server veloci di Groq (Modello Llama 3)
-            completion = client.chat.completions.create(
-                model="llama-3.1-8b-instant",
-                messages=messages_history,
-            )
-            
-            response_text = completion.choices[0].message.content
-            message_placeholder.markdown(response_text)
-            
-            # Salva la risposta dell'IA nella cronologia
-            st.session_state.messages.append({"role": "assistant", "content": response_text})
-            
-        except Exception as e:
-            st.error(f"Errore durante la generazione: {e}")
+        message_placeholder.markdown(response.text)
+        
+    st.session_state.messages.append({"role": "assistant", "content": response.text})
